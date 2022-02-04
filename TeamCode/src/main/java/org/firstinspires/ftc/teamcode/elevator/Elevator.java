@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.elevator;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFControllerOld;
 import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
@@ -12,7 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
-
+import yadre.PIDCoefficientsOld;
+import yadre.PIDFControllerOld;
 /*
  * Hardware class for an elevator or linear lift driven by a pulley system.
  */
@@ -28,7 +27,7 @@ public class Elevator {
     // the operating range of the elevator is restricted to [0, MAX_HEIGHT]
     public static double MAX_HEIGHT = 10; // in
 
-    public static PIDCoefficients PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficientsOld PID = new PIDCoefficientsOld(0, 0, 0);
 
     public static double MAX_VEL = 10; // in/s
     public static double MAX_ACCEL = 10; // in/s^2
@@ -103,7 +102,7 @@ public class Elevator {
             double time = clock.seconds() - profileStartTime;
             MotionState state = profile.get(time);
             controller.setTargetPosition(state.getX());
-            power = controller.update(currentHeight, state.getV());
+            power = controller.update(currentHeight, state.getV(), state.getA());
         } else {
             // just hold the position
             controller.setTargetPosition(desiredHeight);

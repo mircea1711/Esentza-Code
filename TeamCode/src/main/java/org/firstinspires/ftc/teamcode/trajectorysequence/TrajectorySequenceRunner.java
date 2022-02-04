@@ -7,7 +7,7 @@ import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
-import com.acmerobotics.roadrunner.control.PIDFControllerOld;
+import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.drive.DriveSignal;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -41,7 +41,7 @@ public class TrajectorySequenceRunner {
 
     private final TrajectoryFollower follower;
 
-    private final PIDFControllerOld turnController;
+    private final PIDFController turnController;
 
     private final NanoClock clock;
 
@@ -60,7 +60,7 @@ public class TrajectorySequenceRunner {
     public TrajectorySequenceRunner(TrajectoryFollower follower, PIDCoefficients headingPIDCoefficients) {
         this.follower = follower;
 
-        turnController = new PIDFControllerOld(headingPIDCoefficients);
+        turnController = new PIDFController(headingPIDCoefficients);
         turnController.setInputBounds(0, 2 * Math.PI);
 
         clock = NanoClock.system();
